@@ -10,13 +10,7 @@ exports.specViolation = function(s) {
 exports.newWebSocketImpl = function(url, protocols) {
   return function() {
     var platformSpecific = {};
-    if (typeof module !== "undefined" && module.require) {
-      // We are on node.js
-      platformSpecific.WebSocket = module.require('ws');
-    } else {
-      // We are in the browser
-      platformSpecific.WebSocket = WebSocket;
-    }
+    platformSpecific.WebSocket = module.require('ws');
     var socket = new platformSpecific.WebSocket(url, protocols);
     var getSocketProp = function (prop) {
       return function() { return socket[prop]; }
